@@ -15,76 +15,58 @@ int closer(void *param)
 	exit(0);
 }
 
-void ft_putchar(char c)
+void rot_x(void *param)
 {
-	write(1, &c, 1);
+	double m1[3][3] =
+		    {
+					{1, 0, 0},
+					{0, cos(0.1), -sin(0.1)},
+					{0, sin(0.1), cos(0.1)}
+			};
+
+	((b_list *)param)->coef_arr = mlpl_mtrx(((b_list *)param)->coef_arr, m1);
+	mlx_clear_window(((b_list *)param)->conn_id, ((b_list *)param)->win_id);
+	to_iso((b_list *)param, ((b_list *)param)->coef_arr);
 }
 
+void rot_y(void *param)
+{
+	double m2[3][3] =
+			{
+					{cos(0.1), 0, -sin(0.1)},
+					{0, 1, 0},
+					{sin(0.1), 0, cos(0.1)}
+			};
 
+	((b_list *)param)->coef_arr = mlpl_mtrx(((b_list *)param)->coef_arr, m2);
+	mlx_clear_window(((b_list *)param)->conn_id, ((b_list *)param)->win_id);
+	to_iso((b_list *)param, ((b_list *)param)->coef_arr);
+}
+
+void rot_z(void *param)
+{
+	double m3[3][3] =
+			{
+					{cos(0.1), -sin(0.1), 0},
+					{sin(0.1), cos(0.1), 0},
+					{0, 0, 1}
+			};
+
+	((b_list *)param)->coef_arr = mlpl_mtrx(((b_list *)param)->coef_arr, m3);
+	mlx_clear_window(((b_list *)param)->conn_id, ((b_list *)param)->win_id);
+	to_iso((b_list *)param, ((b_list *)param)->coef_arr);
+}
 
 int deal_key(int key, void *param)
 {
-	static int x = 1;
-	static int y = 1;
-	static int z = 1;
-	double m1[3][3] =
-			{
-					{1, 0, 0},
-					{0, cos(0.01 * x), -sin(0.01 * x)},
-					{0, sin(0.01 * x), cos(0.01 * x)}
-			};
-	double m2[3][3] =
-			{
-					{cos(0.01 * y), 0, -sin(0.01 * y)},
-					{0, 1, 0},
-					{sin(0.01 * y), 0, cos(0.01 * y)}
-			};
-	double m3[3][3] =
-			{
-					{cos(0.01 * z), -sin(0.01 * z), 0},
-					{sin(0.01 * z), cos(0.01 * z), 0},
-					{0, 0, 1}
-			};
-	static double **arr;
-	static double **brr;
 	if (key == 0)
-	{
-		((b_list *)param)->coef_arr = mlpl_mtrx(((b_list *)param)->coef_arr, m1);
-//		arr = mlpl_mtrx(arr, m3);
-//		prnt_rr(arr, 3, 3);
-		mlx_clear_window(((b_list *)param)->conn_id, ((b_list *)param)->win_id);
-		to_iso((b_list *)param, ((b_list *)param)->coef_arr);
-		x++;
-	}
+		rot_x(param);
 	if (key == 1)
-	{
-		((b_list *)param)->coef_arr = mlpl_mtrx(((b_list *)param)->coef_arr, m2);
-//		arr = mlpl_mtrx2(m2, m3);
-//		arr = mlpl_mtrx(arr, m1);
-//		mlpl_mtrx3(arr, m3);
-//		arr = mlpl_mtrx(((b_list *)param)->coef_arr, m2);
-		mlx_clear_window(((b_list *)param)->conn_id, ((b_list *)param)->win_id);
-		to_iso((b_list *)param, ((b_list *)param)->coef_arr);
-		y++;
-	}
+		rot_y(param);
 	if (key == 2)
-	{
-		((b_list *)param)->coef_arr = mlpl_mtrx(((b_list *)param)->coef_arr, m3);
-//		arr = mlpl_mtrx2(m3, m1);
-//		arr = mlpl_mtrx(arr, m2);
-//		mlpl_mtrx3(arr, m3);
-//		arr = mlpl_mtrx(((b_list *)param)->coef_arr, m3);
-		mlx_clear_window(((b_list *)param)->conn_id, ((b_list *)param)->win_id);
-		to_iso((b_list *)param, ((b_list *)param)->coef_arr);
-		z++;
-	}
-/*
+		rot_z(param);
 	if (key == 53)
-	{
-		(void)param;
-		exit(0);
-	}
- */
+		closer((void *)param);
 	return (0);
 }
 
@@ -96,12 +78,6 @@ double **init_arr(void *everything)
 					{1, 0, 0},
 					{0, cos(INIT_A), sin(INIT_A)},
 					{0, -sin(INIT_A), cos(INIT_A)}
-			};
-	double m2[3][3] =
-			{
-					{cos(INIT_B), 0, sin(INIT_B)},
-					{0, 1, 0},
-					{-sin(INIT_B), 0, cos(INIT_B)}
 			};
 	double m3[3][3] =
 			{

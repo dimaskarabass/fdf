@@ -16,6 +16,14 @@ typedef struct  g_list
 	returned    *issues;
 }               b_list;
 
+typedef struct  f_list
+{
+	int         x1;
+	int         y1;
+	int         x2;
+	int         y2;
+}               coords;
+
 #include <unistd.h>
 #include "get_next_line.c"
 #include <fcntl.h>
@@ -28,13 +36,8 @@ typedef struct  g_list
 #include "libft/ft_strlen.c"
 #include "libft/ft_strcpy.c"
 
-#define WHIDTH  1500
+#define WHIDTH  1000
 #define HIDHT   1000
-#define COS30   0.154
-#define COS60   -0.952
-#define SIN30   -0.988
-#define SIN60   -0.304
-#define COEF    20
 #define INIT_A  0
 #define INIT_B  0
 

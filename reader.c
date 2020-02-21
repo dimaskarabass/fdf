@@ -1,6 +1,5 @@
 #include <fcntl.h>
 
-
 void freesher(double **arr)
 {
 	int i;
