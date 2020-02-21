@@ -1,6 +1,6 @@
 #include "fdf.h"
 
-void drawLine(b_coor *data, void *mlx_ptr, void *win_ptr)
+void drawLine(returned *data, void *mlx_ptr, void *win_ptr)
 {
 	int deltaX;
 	int deltaY;
