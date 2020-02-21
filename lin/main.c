@@ -15,7 +15,7 @@ int closer(void *param)
 	exit(0);
 }
 
-int deal_key(int key, void *param, b_coor *data)
+int deal_key(int key, void *param, returned *data)
 {
 	static int x;
 	static int y;
@@ -68,7 +68,7 @@ int deal_key(int key, void *param, b_coor *data)
 	return (0);
 }
 
-double **init_arr(void *everything, b_coor *data)
+double **init_arr(void *everything, returned *data)
 {
 	double **coef_arr;
 	double m1[3][3] =
@@ -89,9 +89,8 @@ double **init_arr(void *everything, b_coor *data)
 					{sin(INIT_B), cos(INIT_B), 0},
 					{0, 0, 1}
 			};
-
 	coef_arr = mlpl_mtrx2(m1, m3);
-	to_iso((b_list *)everything, data, coef_arr);
+	to_iso((b_list *)everything, (returned *)data, coef_arr);
 	return (coef_arr);
 }
 
@@ -101,7 +100,7 @@ int main(int argc, char **argv)
 	void *win_id;
 	void *conn_id;
 	b_list *wraper;
-	b_coor *data;
+	returned *data;
 	int **arr;
 
 	if (argc != 2)
@@ -110,7 +109,7 @@ int main(int argc, char **argv)
 		return (0);
 	}
 	wraper = malloc(sizeof(b_list));
-	data = malloc(sizeof(b_coor));
+	data = malloc(sizeof(returned));
 	conn_id = mlx_init();
 	win_id = mlx_new_window(conn_id, WHIDTH, HIDHT, "FDF");
 	(*wraper).win_id = win_id;
