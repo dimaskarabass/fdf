@@ -63,7 +63,7 @@ int			*mltpl_mtrx4(double **matrix, int x, int y, int z)
 	return res;
 }
 
-void		to_iso_len(b_list *cont, b_coor *data, double **m1)
+void		to_iso_len(b_list *cont, returned *data, double **m1)
 {
 	int i;
 	int j;
@@ -91,7 +91,7 @@ void		to_iso_len(b_list *cont, b_coor *data, double **m1)
 	}
 }
 
-void		to_iso_height(b_list *cont, b_coor *data, double **m1)
+void		to_iso_height(b_list *cont, returned *data, double **m1)
 {
 	int i;
 	int j;
@@ -119,8 +119,9 @@ void		to_iso_height(b_list *cont, b_coor *data, double **m1)
 	}
 }
 
-void		to_iso(b_list *cont, b_coor *data, double **m1)
+void		to_iso(b_list *cont, returned *data, double **m1)
 {
+		printf("не здесь\n");
 	to_iso_len(cont, data, m1);
 	to_iso_height(cont, data, m1);
 }
