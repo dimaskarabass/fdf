@@ -1,0 +1,211 @@
+	double m4[3][3] =
+				{
+						{1, 0, 0},
+						{0, cos(0.61), sin(0.61)},
+						{0, -sin(0.61), cos(0.61)}
+				};
+		double m5[3][3] =
+				{
+						{cos(0.785), 0, -sin(0.785)},
+						{0, 1, 0},
+						{sin(0.785), 0, cos(0.785)}
+				};
+		double m6[3][3] =
+				{
+						{0.707, 0, -0.707},
+						{0.408, 0.816, 0.408},
+						{0.577, -0.577, 0.577}
+				};
+		double m7[3][3] =
+				{
+						{1, 0, 0},
+						{0, 1, 0},
+						{0, 0, 1}
+				};
+
+
+
+
+
+
+
+				void to_iso(b_list *cont, int n, double **m1)
+                {
+                	int i;
+                	int j;
+                	int *p1;
+                	int *p2;
+
+                //	prnt_rr(m1, 3, 3);
+                	double m2[3][3] =
+                			{
+                					{1, 0, 0},
+                					{0, 1, 0},
+                					{0, 0, 0}
+                			};
+
+                	i = 0;
+                	j = 0;
+                	while (i < cont->issues->height)
+                	{
+                		while (j < cont->issues->len - 1)
+                		{
+                			p1 = mltpl_mtrx4(m1, i, j, cont->issues->init_arr[i][j]);
+                //			printf("%d\t%d\n", p1[0], p1[1]);
+                //			printf("lol\n")
+                //			p1 = mltpl_mtrx(m2, p1[0], p1[1], p1[2]);
+                			j++;
+
+                			p2 = mltpl_mtrx4(m1, i, j, cont->issues->init_arr[i][j]);
+                //			printf("%d\t%d\n", p2[0], p2[1]);
+                //			p2 = mltpl_mtrx(m2, p2[0], p2[1], p2[2]);
+                			drawLine(WHIDTH/2 + p1[0] * COEF, HIDHT/3 + p1[1] * COEF, WHIDTH/2 + p2[0] * COEF, HIDHT/3 + p2[1] * COEF, cont->conn_id, cont->win_id);
+                		}
+                		j = 0;
+                		i++;
+                	}
+                	i = 0;
+                	j = 0;
+                	while (j < cont->issues->len)
+                	{
+                		while (i < cont->issues->height - 1)
+                		{
+                			p1 = mltpl_mtrx4(m1, i, j, cont->issues->init_arr[i][j]);
+                //			printf("%d\t%d\n", p2[0], p2[1]);
+                //			p1 = mltpl_mtrx(m2, p1[0], p1[1], p1[2]);
+                			i++;
+
+                			p2 = mltpl_mtrx4(m1, i, j, cont->issues->init_arr[i][j]);
+                //			printf("%d\t%d\n", p2[0], p2[1]);
+                //			p2 = mltpl_mtrx(m2, p2[0], p2[1], p2[2]);
+                			drawLine(WHIDTH/2 + p1[0] * COEF, HIDHT/3 + p1[1] * COEF, WHIDTH/2 + p2[0] * COEF, HIDHT/3 + p2[1] * COEF, cont->conn_id, cont->win_id);
+                		}
+                		i = 0;
+                		j++;
+                	}
+                }
+
+
+double **mlpl_mtrx3(double **m1, double m2[3][3])
+{
+	double **res;
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+//	prnt_rr((double **)m1, 3, 3);
+	res = malloc(sizeof(double *) * 3);
+	while (i < 3)
+	{
+		res[i] = malloc(sizeof(double) * 3);
+		while (j < 3)
+		{
+			m1[i][j] = m1[i][0] * m2[0][j] + m1[i][1] * m2[1][j] + m1[i][2] * m2[2][j];
+			printf("%f\t%d\t%d\t%f\n", res[i][j], i, j, m1[0][j]);
+			//printf("lol");
+			j++;
+		}
+		j = 0;
+		i++;
+	}
+	prnt_rr(m1, 3, 3);
+	return (res);
+}
+
+
+int *mltpl_mtrx(double matrix[3][3], int x, int y, int z)
+{
+	int *res;
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+//	printf("%d\t%d\t%d\n", x, y, z);
+//	prnt_rr(matrix, 3, 3);
+	res = malloc(sizeof(int) * 3);
+	while (i < 3)
+	{
+		res[i] = matrix[i][0] * x + matrix[i][1] * y + matrix[i][2] * z;
+//		printf("%d\n", res[i]);
+//		printf("%d\t%d\t%d\t%d\n",matrix[i][0], matrix[i][1],matrix[i][3], i);
+		printf("%d\n", i);
+		i++;
+	}
+//	printf("%d\t%d\t%d\n", res[0], res[1], res[2]);
+	return res;
+}
+
+
+/*
+int deal_key(int key, void *param)
+{
+	static int x;
+	static int y;
+	static int z;
+
+	if (key == 0)
+	{
+		double m1[3][3] =
+				{
+						{1, 0, 0},
+						{0, cos(0.17 * x), -sin(0.17 * x)},
+						{0, sin(0.17 * x), cos(0.17 * x)}
+				};
+		x++;
+		mlx_clear_window(((b_list *)param)->conn_id, ((b_list *)param)->win_id);
+		to_iso((b_list *)param, x, m1);
+	}
+	if (key == 1)
+	{
+		double m1[3][3] =
+				{
+						{cos(0.17 * y), 0, cos(0.17 * y)},
+						{0, 1, 0},
+						{-sin(0.17 * y), 0, cos(0.17 * y)}
+				};
+		y++;
+		mlx_clear_window(((b_list *)param)->conn_id, ((b_list *)param)->win_id);
+		to_iso((b_list *)param, y, m1);
+	}
+	if (key == 2)
+	{
+		double m1[3][3] =
+				{
+						{cos(0.17 * z), -sin(0.17 * z), 0},
+						{sin(0.17 * z), cos(0.17 * z), 0},
+						{0, 0, 1}
+				};
+		z++;
+		mlx_clear_window(((b_list *)param)->conn_id, ((b_list *)param)->win_id);
+		to_iso((b_list *)param, z, m1);
+	}
+	return (0);
+}
+*/
+
+/*
+int **st_arr(char *file)
+{
+	height = find_size(file);
+	init_arr = malloc(sizeof(int *) * (height));
+	fd = open(file, O_RDONLY);
+	while(get_next_line(fd, &line))
+	{
+		j = 0;
+		arr = ft_strsplit(line, ' ');
+		while (arr[len])
+			len++;
+		printf("%s\n", arr[len-1]);
+		init_arr[i] = malloc(sizeof(int) * (len));
+		while(j < len)
+		{
+			init_arr[i][j] = ft_atoi(arr[j]);
+			j++;
+		}
+		i++;
+	}
+	return (init_arr);
+}
+*/
