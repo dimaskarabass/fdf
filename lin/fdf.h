@@ -24,6 +24,10 @@ typedef struct p_list
 	int     **init_arr;
 	int     len;
 	int     height;
+	int		x1;
+	int 	x2;
+	int		y1;
+	int 	y2;
 }               returned;
 
 typedef struct	g_list
@@ -33,13 +37,5 @@ typedef struct	g_list
 	double  **coef_arr;
 	returned    *issues;
 }               b_list;
-
-typedef struct g_coor
-{
-	int		x1;
-	int 	x2;
-	int		y1;
-	int 	y2;
-}				b_coor;
 
 #endif
