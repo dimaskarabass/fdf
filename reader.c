@@ -59,9 +59,34 @@ void prnt_rr(double **arr, int i, int j)
 	}
 }
 
-void helper_for_helper(int **init_arr, )
+void helper_for_helper(int **init_arr, coords *cont)
 {
     char    *line;
+    char    **arr;
+    int     j;
+
+    while(get_next_line(cont->x1, &line))
+    {
+        j = 0;
+        cont->y1 = 0;
+        arr = ft_strsplit(line, ' ');
+        while (arr[cont->y1])
+            cont->y1++;
+        if (cont->y1 != cont->y2)
+        {
+            ft_putstr("Found wrong line length. Exiting.\n");
+            exit(0);
+        }
+        init_arr[cont->x2] = malloc(sizeof(int) * (cont->y1));
+        while(j < cont->y1)
+        {
+            init_arr[cont->x2][j] = ft_atoi(arr[j]);
+            j++;
+        }
+        cont->x2++;
+        free(arr);
+//		free(line);
+    }
 }
 
 returned *helper_for_read(coords *cont, returned *lol, int **init_arr)
@@ -82,28 +107,7 @@ returned *helper_for_read(coords *cont, returned *lol, int **init_arr)
         j++;
 	}
     cont->x2++;
-	while(get_next_line(cont->x1, &line))
-	{
-		j = 0;
-        cont->y1 = 0;
-		arr = ft_strsplit(line, ' ');
-		while (arr[cont->y1])
-            cont->y1++;
-		if (cont->y1 != cont->y2)
-		{
-			ft_putstr("Found wrong line length. Exiting.\n");
-			exit(0);
-		}
-		init_arr[cont->x2] = malloc(sizeof(int) * (cont->y1));
-		while(j < cont->y1)
-		{
-			init_arr[cont->x2][j] = ft_atoi(arr[j]);
-			j++;
-		}
-		i++;
-		free(arr);
-//		free(line);
-	}
+	helper_for_helper(init_arr, cont);
 	lol->init_arr = init_arr;
     lol->len = cont->y1;
 //	free(arr);
@@ -123,7 +127,7 @@ returned *reader(char *file)
 	cont->x1 = open(file, O_RDONLY);    //fd
 	cont->y2 = 0;                       //extra
 	lol = malloc(sizeof(returned));
-    init_arr = malloc(sizeof(int *) * (height));
     lol->height = find_size(file);
+    init_arr = malloc(sizeof(int *) * (lol->height));
 	return (helper_for_read(cont, lol, init_arr));
 }
