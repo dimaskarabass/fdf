@@ -1,6 +1,6 @@
 #include "fdf.h"
 
-int			deal_key(int key, void *param)
+int		deal_key(int key, void *param)
 {
 	if (key == 0)
 		rot_x(param);
