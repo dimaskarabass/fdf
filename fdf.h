@@ -34,7 +34,7 @@ typedef struct  f_list
 	int         y2;
 }               coords;
 
-int			closer(void *param);
+int		closer(void *param);
 void 		rot_y(void *param);
 void		rot_z(void *param);
 int 		deal_key(int key, void *param);
