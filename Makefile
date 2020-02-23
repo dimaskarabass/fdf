@@ -1,17 +1,20 @@
 .PHONY: all clean fclean re
 NAME = fdf
-SRCS = main.c
+SRCS =	alg.c \
+	reader.c \
+	to_iso.c \
+	get_next_line.c \
+	main.c \
+	rot.c
 OBJS = $(SRCS:.c=.o)
 HEADER_DIR = src/
 CC = gcc
 FLAGS = -Wall -Wextra -Werror
-EXTRA_FLAGS = -L /usr/local/lib/ -lmlx -framework OpenGL -framework AppKit
+EXTRA_FLAGS = -L /usr/local/lib/ -lmlx -framework OpenGL -framework AppKit libft/libft.a
 HEADER = mlx.h
 all: $(NAME)
 $(NAME):
 	$(CC) $(SRCS) $(EXTRA_FLAGS)
-#%.o:%.c ${HEADER}
-#	gcc $(FLAGS) -I $(HEADER_DIR) -c $< -o $@
 clean:
 	/bin/rm -f src/*.o
 	/bin/rm -f src/*.gch
