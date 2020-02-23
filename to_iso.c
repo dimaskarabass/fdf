@@ -1,4 +1,4 @@
-#include  "../../Documents/fdf/fdf.h"
+#include  "./fdf.h"
 
 double		**mlpl_mtrx2(double m1[3][3], double m2[3][3])
 {
@@ -46,7 +46,7 @@ double		**mlpl_mtrx(double **m1, double m2[3][3])
 	return (res);
 }
 
-int			*mltpl_mtrx4(double **matrix, int x, int y, int z, int c)
+int			*mltpl_mtrx4(double **matrix, int *p, int z, int c)
 {
 	int 	*res;
 	int 	i;
@@ -57,69 +57,98 @@ int			*mltpl_mtrx4(double **matrix, int x, int y, int z, int c)
 	res = malloc(sizeof(int) * 3);
 	while (i < 3)
 	{
-		res[i] = matrix[i][0] * x * c + matrix[i][1] * y  * c + matrix[i][2] * z * c;
+		res[i] = matrix[i][0] * p[0] * c + matrix[i][1] * p[1]  * c + matrix[i][2] * z * c;
 		i++;
 	}
 	return res;
 }
 
+void        helper_to_iso_l(b_list *cont, double **m1, coords *saver, coords *saver2)
+{
+    int *p1;
+    int *p2;
+
+    p2 = malloc(sizeof(int) * 2);
+    while (saver2->y1 < cont->issues->len)
+    {
+        while (saver2->x1 < cont->issues->height - 1)
+        {
+            p2[0] = saver2->x1;
+            p2[1] = saver2->y1;
+            p1 = mltpl_mtrx4(m1, p2, cont->issues->init_arr[saver2->x1][saver2->y1], saver2->x2);
+            saver->x1 = WHIDTH/2 + p1[0];
+            saver->y1 = HIDHT/2 + p1[1];
+            free(p1);
+            saver2->x1++;
+            p2[0] = saver2->x1;
+            p1 = mltpl_mtrx4(m1, p2, cont->issues->init_arr[saver2->x1][saver2->y1], saver2->x2);
+            saver->x2 = WHIDTH/2 + p1[0];
+            saver->y2 = HIDHT/2 + p1[1];
+            free(p1);
+            drawLine(saver, cont->conn_id, cont->win_id);
+        }
+        saver2->x1 = 0;
+        saver2->y1++;
+    }
+}
+
+void        helper_to_iso_h(b_list *cont, double **m1, coords *saver, coords *saver2)
+{
+    int *p1;
+    int *p2;
+
+    p2 = malloc(sizeof(int) * 2);
+    while (saver2->x1 < cont->issues->height)
+    {
+        while (saver2->y1 < cont->issues->len - 1)
+        {
+            p2[0] = saver2->x1;
+            p2[1] = saver2->y1;
+            p1 = mltpl_mtrx4(m1, p2, cont->issues->init_arr[saver2->x1][saver2->y1], saver2->x2);
+            saver->x1 = WHIDTH/2 + p1[0];
+            saver->y1 = HIDHT/2 + p1[1];
+            free(p1);
+            saver2->y1++;
+            p2[1] = saver2->y1;
+            p1 = mltpl_mtrx4(m1, p2, cont->issues->init_arr[saver2->x1][saver2->y1], saver2->x2);
+            saver->x2 = WHIDTH/2 + p1[0];
+            saver->y2 = HIDHT/2 + p1[1];
+            free(p1);
+            drawLine(saver, cont->conn_id, cont->win_id);
+        }
+        saver2->y1 = 0;
+        saver2->x1++;
+    }
+}
 
 void		to_iso_len(b_list *cont, double **m1, int c)
 {
-	int i;
-	int j;
-	int *p1;
-	int *p2;
-	coords *saver;
+    coords  *saver;
+    coords  *saver2;
 
-	i = 0;
-	j = 0;
-	saver = (coords *)malloc(sizeof(coords));
-	while (j < cont->issues->len)
-	{
-		while (i < cont->issues->height - 1)
-		{
-			p1 = mltpl_mtrx4(m1, i, j, cont->issues->init_arr[i][j], c);
-			saver->x1 = WHIDTH/2 + p1[0];
-			saver->y1 = HIDHT/2 + p1[1];
-			i++;
-			p2 = mltpl_mtrx4(m1, i, j, cont->issues->init_arr[i][j], c);
-			saver->x2 = WHIDTH/2 + p2[0];
-			saver->y2 = HIDHT/2 + p2[1];
-			drawLine(saver, cont->conn_id, cont->win_id);
-		}
-		i = 0;
-		j++;
-	}
+    saver2 = malloc(sizeof(coords));
+    saver2->x1 = 0; //i
+    saver2->y1 = 0; //j
+    saver2->x2 = c;
+    saver = (coords *)malloc(sizeof(coords));
+    helper_to_iso_l(cont, m1, saver, saver2);
+    free(saver);
+    free(saver2);
 }
 
 void		to_iso_height(b_list *cont, double **m1, int c)
 {
-	int i;
-	int j;
-	int *p1;
-	int *p2;
-	coords *saver;
+    coords *saver;
+    coords  *saver2;
 
-	i = 0;
-	j = 0;
-	saver = (coords *)malloc(sizeof(coords));
-	while (i < cont->issues->height)
-	{
-		while (j < cont->issues->len - 1)
-		{
-			p1 = mltpl_mtrx4(m1, i, j, cont->issues->init_arr[i][j], c);
-			saver->x1 = WHIDTH/2 + p1[0];
-			saver->y1 = HIDHT/2 + p1[1];
-			j++;
-			p2 = mltpl_mtrx4(m1, i, j, cont->issues->init_arr[i][j], c);
-			saver->x2 = WHIDTH/2 + p2[0];
-			saver->y2 = HIDHT/2 + p2[1];
-			drawLine(saver, cont->conn_id, cont->win_id);
-		}
-		j = 0;
-		i++;
-	}
+    saver2 = malloc(sizeof(coords));
+    saver2->x1 = 0; //i
+    saver2->y1 = 0; //j
+    saver2->x2 = c;
+    saver = (coords *)malloc(sizeof(coords));
+    helper_to_iso_h(cont, m1, saver, saver2);
+    free(saver);
+    free(saver2);
 }
 
 int arr_max(returned cont)
@@ -178,7 +207,7 @@ void		to_iso(b_list *cont, double **m1)
 	min_z = arr_min(*(cont->issues));
 	c = sqrt(cont->issues->len * cont->issues->len + cont->issues->height * cont->issues->height);
 	if (fabs((double)max_z) + fabs((double)min_z) > c)
-		c = fabs((double)max_z) + fabs((double)min_z) / 2;
+		c = fabs((double)max_z) + fabs((double)min_z) / 3;
 	c = HIDHT / (2 * c);
 	to_iso_len(cont, m1, c);
 	to_iso_height(cont, m1, c);

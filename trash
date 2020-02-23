@@ -209,3 +209,211 @@ int **st_arr(char *file)
 	return (init_arr);
 }
 */
+
+
+/*
+returned *helper_for_read(int fd, int height, int len, returned *lol)
+{
+	int    **init_arr;
+	char    **arr;
+	char    *line;
+	int     i;
+	int     j;
+	int     extra;
+
+	j = 0;
+	i = 0;
+	extra = 0;
+	init_arr = malloc(sizeof(int *) * (height));
+	while(get_next_line(fd, &line))
+	{
+		j = 0;
+		len = 0;
+		arr = ft_strsplit(line, ' ');
+		while (arr[len])
+			len++;
+		if (len == extra)
+		{
+			ft_putstr("Found wrong line length. Exiting.\n");
+			exit(0);
+		}
+		init_arr[i] = malloc(sizeof(int) * (len));
+		while(j < len)
+		{
+			init_arr[i][j] = ft_atoi(arr[j]);
+			j++;
+		}
+		i++;
+		free(arr);
+//		free(line);
+	}
+	lol->init_arr = init_arr;
+	lol->height = height;
+	lol->len = len;
+//	free(arr);
+	free(line);
+	return(lol);
+}
+*/
+
+/*
+void drawLine(coords *data, void *mlx_ptr, void *win_ptr)
+{
+    coords st_cont;
+	int deltaX;
+	int deltaY;
+	int signX;
+	int error;
+	int signY;
+    int error2;
+
+    st_cont = malloc(sizeof(coords));
+	deltaX = abs(data->x2 - data->x1);
+	deltaY = abs(data->y2 - data->y1);
+	signX = data->x1 < data->x2 ? 1 : -1;
+	signY = data->y1 < data->y2 ? 1 : -1;
+	error = deltaX - deltaY;
+	mlx_pixel_put(mlx_ptr, win_ptr, data->x2, data->y2, 0xffffff);
+	while(data->x1 != data->x2 || data->y1 != data->y2)
+	{
+		mlx_pixel_put(mlx_ptr, win_ptr, data->x1, data->y1, 0xffffff);
+		error2 = error * 2;
+		if (error2 > -deltaY)
+		{
+			error -= deltaY;
+			data->x1 += signX;
+		}
+		if (error2 < deltaX)
+		{
+			error += deltaX;
+			data->y1 += signY;
+		}
+	}
+}
+ */
+
+ void		to_iso_len(b_list *cont, double **m1, int c)
+ {
+ 	int i;
+ 	int j;
+ 	int *p1;
+ 	int *p2;
+ 	coords *saver;
+
+ 	i = 0;
+ 	j = 0;
+ 	saver = (coords *)malloc(sizeof(coords));
+ 	p2 = malloc(sizeof(int) * 2);
+ 	while (j < cont->issues->len)
+ 	{
+ 		while (i < cont->issues->height - 1)
+ 		{
+ 			p2[0] = i;
+ 			p2[1] = j;
+ 			p1 = mltpl_mtrx4(m1, p2, cont->issues->init_arr[i][j], c);
+ 			saver->x1 = WHIDTH/2 + p1[0];
+ 			saver->y1 = HIDHT/2 + p1[1];
+ 			free(p1);
+ 			i++;
+ 			p2[0] = i;
+ 			p1 = mltpl_mtrx4(m1, p2, cont->issues->init_arr[i][j], c);
+ 			saver->x2 = WHIDTH/2 + p1[0];
+ 			saver->y2 = HIDHT/2 + p1[1];
+ 			free(p1);
+ 			drawLine(saver, cont->conn_id, cont->win_id);
+ 		}
+ 		i = 0;
+ 		j++;
+ 	}
+ 	free(p2);
+ 	free(saver);
+ }
+
+ void		to_iso_height(b_list *cont, double **m1, int c)
+ {
+ 	int i;
+ 	int j;
+ 	int *p1;
+ 	int *p2;
+ 	coords *saver;
+
+ 	i = 0;
+ 	j = 0;
+ 	saver = (coords *)malloc(sizeof(coords));
+ 	p2 = malloc(sizeof(int) * 2);
+ 	while (i < cont->issues->height)
+ 	{
+ 		while (j < cont->issues->len - 1)
+ 		{
+ 			p2[0] = i;
+ 			p2[1] = j;
+ 			p1 = mltpl_mtrx4(m1, p2, cont->issues->init_arr[i][j], c);
+ 			saver->x1 = WHIDTH/2 + p1[0];
+ 			saver->y1 = HIDHT/2 + p1[1];
+ 			free(p1);
+ 			j++;
+ 			p2[1] = j;
+ 			p1 = mltpl_mtrx4(m1, p2, cont->issues->init_arr[i][j], c);
+ 			saver->x2 = WHIDTH/2 + p1[0];
+ 			saver->y2 = HIDHT/2 + p1[1];
+ 			free(p1);
+ 			drawLine(saver, cont->conn_id, cont->win_id);
+ 		}
+ 		j = 0;
+ 		i++;
+ 	}
+ 	free(p2);
+ 	free(saver);
+ }
+
+ returned *helper_for_read(coords *cont, returned *lol, int **init_arr)
+ {
+ 	char    **arr;
+ 	char    *line;
+ 	int     i;
+ 	int     j;
+ 	int     extra;
+
+ 	j = 0;
+ 	i = 0;
+ 	extra = 0;
+ 	get_next_line(fd, &line);
+ 	arr = ft_strsplit(line, ' ');
+ 	while (arr[extra])
+ 		extra++;
+ 	init_arr[i] = malloc(sizeof(int) * (extra));
+ 	while(j < extra)
+ 	{
+         init_arr[i][j] = ft_atoi(arr[j]);
+         j++;
+ 	}
+ 		i++;
+ 	while(get_next_line(fd, &line))
+ 	{
+ 		j = 0;
+ 		len = 0;
+ 		arr = ft_strsplit(line, ' ');
+ 		while (arr[len])
+ 			len++;
+ 		if (len != extra)
+ 		{
+ 			ft_putstr("Found wrong line length. Exiting.\n");
+ 			exit(0);
+ 		}
+ 		init_arr[i] = malloc(sizeof(int) * (len));
+ 		while(j < len)
+ 		{
+ 			init_arr[i][j] = ft_atoi(arr[j]);
+ 			j++;
+ 		}
+ 		i++;
+ 		free(arr);
+ //		free(line);
+ 	}
+ 	lol->init_arr = init_arr;
+ 	lol->height = height;
+ 	lol->len = len;
+ //	free(arr);
+ 	free(line);
+ 	return(lol);
+ }

@@ -15,18 +15,23 @@ int closer(void *param)
 	exit(0);
 }
 
+void helper(void *param, double m[3][3])
+{
+	((b_list *)param)->coef_arr = mlpl_mtrx(((b_list *)param)->coef_arr, m);
+	mlx_clear_window(((b_list *)param)->conn_id, ((b_list *)param)->win_id);
+	to_iso((b_list *)param, ((b_list *)param)->coef_arr);
+}
+
 void rot_x(void *param)
 {
 	double m1[3][3] =
-		    {
+			{
 					{1, 0, 0},
 					{0, cos(0.1), -sin(0.1)},
 					{0, sin(0.1), cos(0.1)}
 			};
 
-	((b_list *)param)->coef_arr = mlpl_mtrx(((b_list *)param)->coef_arr, m1);
-	mlx_clear_window(((b_list *)param)->conn_id, ((b_list *)param)->win_id);
-	to_iso((b_list *)param, ((b_list *)param)->coef_arr);
+	helper(param, m1);
 }
 
 void rot_y(void *param)
@@ -38,9 +43,7 @@ void rot_y(void *param)
 					{sin(0.1), 0, cos(0.1)}
 			};
 
-	((b_list *)param)->coef_arr = mlpl_mtrx(((b_list *)param)->coef_arr, m2);
-	mlx_clear_window(((b_list *)param)->conn_id, ((b_list *)param)->win_id);
-	to_iso((b_list *)param, ((b_list *)param)->coef_arr);
+	helper(param, m2);
 }
 
 void rot_z(void *param)
@@ -52,9 +55,7 @@ void rot_z(void *param)
 					{0, 0, 1}
 			};
 
-	((b_list *)param)->coef_arr = mlpl_mtrx(((b_list *)param)->coef_arr, m3);
-	mlx_clear_window(((b_list *)param)->conn_id, ((b_list *)param)->win_id);
-	to_iso((b_list *)param, ((b_list *)param)->coef_arr);
+	helper(param, m3);
 }
 
 int deal_key(int key, void *param)
@@ -91,6 +92,33 @@ double **init_arr(void *everything)
 	return coef_arr;
 }
 
+void ifreesher(returned *issues)
+{
+	int i;
+
+	i = 0;
+	while (i < issues->height)
+	{
+		free(issues->init_arr[i]);
+		i++;
+	}
+	free(issues->init_arr);
+	free(issues);
+}
+
+void idfreesher(b_list *issues)
+{
+	int i;
+
+	i = 0;
+	while (i < 3)
+	{
+		free(issues->coef_arr);
+		i++;
+	}
+	free(issues->coef_arr);
+	free(issues);
+}
 
 int main(int argc, char **argv)
 {
@@ -101,18 +129,19 @@ int main(int argc, char **argv)
 
 	if (argc != 2)
 	{
-		printf("ATTENTION!!!!!!\n");
+		ft_putstr("Usage : ./fdf <filename> [ case_size z_size ]\n");
 		return (0);
 	}
 	wraper = malloc(sizeof(b_list));
+	(*wraper).issues = reader(argv[1]);
 	conn_id = mlx_init();
 	win_id = mlx_new_window(conn_id, WHIDTH, HIDHT, "FDF");
 	(*wraper).win_id = win_id;
-	(*wraper).issues = reader(argv[1]);
 	(*wraper).conn_id = conn_id;
 	(*wraper).coef_arr = init_arr((void *) wraper);
 	mlx_hook(win_id, 2, 0, deal_key,(void *)wraper);
-	mlx_hook(win_id, 17, 0, closer,(void *)0);
 	mlx_loop(conn_id);
+	ifreesher(wraper->issues);
+	idfreesher(wraper);
 	return (0);
 }
