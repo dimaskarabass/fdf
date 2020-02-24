@@ -26,42 +26,33 @@ void dfreesher(double **issues)
     free(issues);
 }
 
-double		**init_arr(void *everything)
+double **init_arr(void *everything)
 {
-	double **coef_arr;
+    double **coef_arr;
     double **coef_arr2;
-	double m1[3][3];
-	double m3[3][3];
-
-	m1[0][0] = 1;
-	m1[0][1] = 0;
-	m1[0][2] = 0;
-	m1[1][0] = 0;
-	m1[1][1] = cos(INIT_A);
-	m1[1][2] = sin(INIT_A);
-	m1[2][0] = 0;
-	m1[2][1] = -sin(INIT_A);
-	m1[2][2] = cos(INIT_A);
-	m3[0][0] = cos(INIT_B);
-	m3[0][1] = -sin(INIT_B);
-	m3[0][2] = 0;
-	m3[1][0] = sin(INIT_B);
-	m3[1][1] = cos(INIT_B);
-	m3[1][2] = 0;
-	m3[2][0] = 0;
-	m3[2][1] = 0;
-	m3[2][2] = 0;
+    double m1[3][3] =
+            {
+                    {1, 0, 0},
+                    {0, cos(INIT_A2), sin(INIT_A2)},
+                    {0, -sin(INIT_A2), cos(INIT_A2)}
+            };
+    double m3[3][3] =
+            {
+                    {cos(INIT_B2), -sin(INIT_B2), 0},
+                    {sin(INIT_B2), cos(INIT_B2), 0},
+                    {0, 0, 1}
+            };
     double m2[3][3] =
             {
                     {cos(INIT_Z2), 0, -sin(INIT_Z2)},
                     {0, 1, 0},
                     {sin(INIT_Z2), 0, cos(INIT_Z2)}
             };
-	coef_arr = mlpl_mtrx2(m1, m3);
+    coef_arr = mlpl_mtrx2(m1, m3);
     coef_arr2 = mlpl_mtrx(coef_arr, m2);
-	to_iso((b_list *)everything, coef_arr2);
+    to_iso((b_list *)everything, coef_arr2);
     dfreesher(coef_arr);
-	return (coef_arr);
+    return (coef_arr2);
 }
 
 void		ifreesher(returned *issues)

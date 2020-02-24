@@ -31,8 +31,8 @@ int			find_size(char *file)
 	while (get_next_line(fd, &line))
 	{
 		height++;
+        free(line);
 	}
-	free(line);
 	close(fd);
 	return (height);
 }
