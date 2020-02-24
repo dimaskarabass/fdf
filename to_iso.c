@@ -69,19 +69,19 @@ void        helper_to_iso_l(b_list *cont, double **m1, coords *saver, coords *sa
     int *p2;
 
     p2 = malloc(sizeof(int) * 2);
-    while (saver2->y1 < cont->issues->len)
+    while (saver2->y1 < cont->issues.len)
     {
-        while (saver2->x1 < cont->issues->height - 1)
+        while (saver2->x1 < cont->issues.height - 1)
         {
             p2[0] = saver2->x1;
             p2[1] = saver2->y1;
-            p1 = mltpl_mtrx4(m1, p2, cont->issues->init_arr[saver2->x1][saver2->y1], saver2->x2);
+            p1 = mltpl_mtrx4(m1, p2, cont->issues.init_arr[saver2->x1][saver2->y1], saver2->x2);
             saver->x1 = WHIDTH/2 + p1[0];
             saver->y1 = HIDHT/2 + p1[1];
             free(p1);
             saver2->x1++;
             p2[0] = saver2->x1;
-            p1 = mltpl_mtrx4(m1, p2, cont->issues->init_arr[saver2->x1][saver2->y1], saver2->x2);
+            p1 = mltpl_mtrx4(m1, p2, cont->issues.init_arr[saver2->x1][saver2->y1], saver2->x2);
             saver->x2 = WHIDTH/2 + p1[0];
             saver->y2 = HIDHT/2 + p1[1];
             free(p1);
@@ -90,6 +90,7 @@ void        helper_to_iso_l(b_list *cont, double **m1, coords *saver, coords *sa
         saver2->x1 = 0;
         saver2->y1++;
     }
+    free(p2);
 }
 
 void        helper_to_iso_h(b_list *cont, double **m1, coords *saver, coords *saver2)
@@ -98,19 +99,19 @@ void        helper_to_iso_h(b_list *cont, double **m1, coords *saver, coords *sa
     int *p2;
 
     p2 = malloc(sizeof(int) * 2);
-    while (saver2->x1 < cont->issues->height)
+    while (saver2->x1 < cont->issues.height)
     {
-        while (saver2->y1 < cont->issues->len - 1)
+        while (saver2->y1 < cont->issues.len - 1)
         {
             p2[0] = saver2->x1;
             p2[1] = saver2->y1;
-            p1 = mltpl_mtrx4(m1, p2, cont->issues->init_arr[saver2->x1][saver2->y1], saver2->x2);
+            p1 = mltpl_mtrx4(m1, p2, cont->issues.init_arr[saver2->x1][saver2->y1], saver2->x2);
             saver->x1 = WHIDTH/2 + p1[0];
             saver->y1 = HIDHT/2 + p1[1];
             free(p1);
             saver2->y1++;
             p2[1] = saver2->y1;
-            p1 = mltpl_mtrx4(m1, p2, cont->issues->init_arr[saver2->x1][saver2->y1], saver2->x2);
+            p1 = mltpl_mtrx4(m1, p2, cont->issues.init_arr[saver2->x1][saver2->y1], saver2->x2);
             saver->x2 = WHIDTH/2 + p1[0];
             saver->y2 = HIDHT/2 + p1[1];
             free(p1);
@@ -119,6 +120,7 @@ void        helper_to_iso_h(b_list *cont, double **m1, coords *saver, coords *sa
         saver2->y1 = 0;
         saver2->x1++;
     }
+    free(p2);
 }
 
 void		to_iso_len(b_list *cont, double **m1, int c)

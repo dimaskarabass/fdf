@@ -27,7 +27,7 @@ typedef struct  g_list
 	void    *win_id;
 	void    *conn_id;
 	double  **coef_arr;
-	returned    *issues;
+	returned    issues;
 }               b_list;
 
 typedef struct  f_list
