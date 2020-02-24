@@ -1,3 +1,4 @@
+#include "fdf.h"
 void drawLine_helper(coords *data, void *mlx_ptr, void *win_ptr, coords *num)
 {
     int error;
@@ -25,10 +26,6 @@ void drawLine_helper(coords *data, void *mlx_ptr, void *win_ptr, coords *num)
 void drawLine(coords *data, void *mlx_ptr, void *win_ptr)
 {
     coords *st_cont;
-    int deltaX;
-    int deltaY;
-    int signX;
-    int signY;
 
     st_cont = malloc(sizeof(coords));
     st_cont->x1 = abs(data->x2 - data->x1);     //dx

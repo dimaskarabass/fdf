@@ -201,16 +201,18 @@ int arr_min(returned cont)
 
 void		to_iso(b_list *cont, double **m1)
 {
-	int max_z;
-	int min_z;
-	int c;
+    int max_z;
+    int min_z;
+    int c;
 
-	max_z = arr_max(*(cont->issues));
-	min_z = arr_min(*(cont->issues));
-	c = sqrt(cont->issues->len * cont->issues->len + cont->issues->height * cont->issues->height);
-	if (fabs((double)max_z) + fabs((double)min_z) > c)
-		c = fabs((double)max_z) + fabs((double)min_z) / 3;
-	c = HIDHT / (2 * c);
-	to_iso_len(cont, m1, c);
-	to_iso_height(cont, m1, c);
+    max_z = arr_max((cont->issues));
+    min_z = arr_min((cont->issues));
+    c = sqrt(cont->issues.len * cont->issues.len + cont->issues.height * cont->issues.height);
+    if (fabs((double)max_z) + fabs((double)min_z) > c)
+        c = fabs((double)max_z) + fabs((double)min_z) / 3;
+    c = HIDHT / (2 * c);
+    if (c == 0)
+        c = 1;
+    to_iso_len(cont, m1, c);
+    to_iso_height(cont, m1, c);
 }

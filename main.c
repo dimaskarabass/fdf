@@ -13,6 +13,19 @@ int		deal_key(int key, void *param)
 	return (0);
 }
 
+void dfreesher(double **issues)
+{
+    int i;
+
+    i = 0;
+    while (i < 3)
+    {
+        free(issues[i]);
+        i++;
+    }
+    free(issues);
+}
+
 double		**init_arr(void *everything)
 {
 	double **coef_arr;

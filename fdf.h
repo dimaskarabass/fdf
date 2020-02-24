@@ -5,6 +5,10 @@
 #define HIDHT   1000
 #define INIT_A  0
 #define INIT_B  0
+#define INIT_A2 0.61
+#define INIT_B2 -0.785 * 3
+#define INIT_Z2 3.14
+
 
 #include <stdio.h>
 #include <fcntl.h>
