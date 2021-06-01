@@ -26,15 +26,15 @@ void	helper_to_iso_l(b_list *co, double **m1, coords *sav, coords *sav2)
 			p2[1] = sav2->y1;
 			p1 = mltpl_mtrx4(m1, p2, co->issues.init_arr[sav2->x1][sav2->y1],
 			sav2->x2);
-			sav->x1 = WHIDTH / 2 + p1[0];
-			sav->y1 = HIDHT / 2 + p1[1];
+			sav->x1 = WHIDTH / 3 + p1[0];
+			sav->y1 = HIDHT / 3 + p1[1] + 50;
 			free(p1);
 			sav2->x1++;
 			p2[0] = sav2->x1;
 			p1 = mltpl_mtrx4(m1, p2, co->issues.init_arr[sav2->x1][sav2->y1],
 			sav2->x2);
-			sav->x2 = WHIDTH / 2 + p1[0];
-			sav->y2 = HIDHT / 2 + p1[1];
+			sav->x2 = WHIDTH / 3 + p1[0];
+			sav->y2 = HIDHT / 3 + p1[1] + 50;
 			free(p1);
 			drawline(sav, co->conn_id, co->win_id);
 		}
@@ -58,15 +58,15 @@ void	helper_to_iso_h(b_list *co, double **m1, coords *sav, coords *sav2)
 			p2[1] = sav2->y1;
 			p1 = mltpl_mtrx4(m1, p2, co->issues.init_arr[sav2->x1][sav2->y1],
 			sav2->x2);
-			sav->x1 = WHIDTH / 2 + p1[0];
-			sav->y1 = HIDHT / 2 + p1[1];
+			sav->x1 = WHIDTH / 3  + p1[0];
+			sav->y1 = HIDHT / 3  + p1[1] + 50;
 			free(p1);
 			sav2->y1++;
 			p2[1] = sav2->y1;
 			p1 = mltpl_mtrx4(m1, p2, co->issues.init_arr[sav2->x1][sav2->y1],
 			sav2->x2);
-			sav->x2 = WHIDTH / 2 + p1[0];
-			sav->y2 = HIDHT / 2 + p1[1];
+			sav->x2 = WHIDTH / 3   + p1[0];
+			sav->y2 = HIDHT / 3  + p1[1] + 50;
 			free(p1);
 			drawline(sav, co->conn_id, co->win_id);
 		}

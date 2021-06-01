@@ -15,7 +15,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <fcntl.h>
-#include "libft/libft.h"
+#include "./libft/libft.h"
 #include "get_next_line.h"
 #include "mlx.h"
 
@@ -42,6 +42,7 @@ typedef struct  f_list
 	int         y2;
 }               coords;
 
+void		to_iso(b_list *cont, double **m1);
 int		closer(void *param);
 void 		helper(void *param, double m[3][3]);
 void 		rot_x(void *param);
@@ -61,13 +62,13 @@ void		to_iso_len(b_list *cont, double **m1, int c);
 void		to_iso_height(b_list *cont, double **m1, int c);
 int 		arr_max(returned cont);
 int 		arr_min(returned cont);
-void		to_iso(b_list *cont, double **m1);
 void 		freesher(double **arr);
 int 		find_size(char *file);
 void 		prnt_rr(double **arr, int i, int j);
 returned 	*helper_for_read(coords *cont, returned *lol, int **init_arr);
 returned 	*reader(char *file);
-void		drawLine(coords *data, void *mlx_ptr, void *win_ptr);
+void		drawline(coords *data, void *mlx_ptr, void *win_ptr);
+
 void		drawLine_helper(coords *data, void *mlx_ptr, void *win_ptr, coords *num);
 
 #endif
